@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to PDF - PDF Tools Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="image-to-pdf.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="nav-bar">
+                <button onclick="goBack()" class="back-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="19" y1="12" x2="5" y2="12" stroke="currentColor" stroke-width="2"/>
+                        <polyline points="12,19 5,12 12,5" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span>Back to Hub</span>
+                </button>
+            </div>
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <polyline points="14,2 14,8 20,8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                <span>PDF Tools</span>
+            </div>
+            <h1>Convert Images to PDF</h1>
+            <p>Transform multiple images into a professional PDF document</p>
+        </header>
+
+        <main class="main-content">
+            <div class="upload-section">
+                <div class="file-upload" id="dropZone">
+                    <input type="file" id="imageInput" accept="image/*" multiple>
+                    <label for="imageInput" class="file-upload-label">
+                        <div class="upload-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="2"/>
+                                <polyline points="21,15 16,10 5,21" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="upload-text">
+                            <span class="upload-title">Drop images here or click to select</span>
+                            <span class="upload-subtitle">Supports JPG, PNG, GIF, and more</span>
+                        </div>
+                    </label>
+                </div>
+
+                <div id="fileInfo" class="file-info" style="display: none;">
+                    <div class="file-details">
+                        <div class="file-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="file-meta">
+                            <span id="fileCount" class="file-name">0 images selected</span>
+                            <div class="file-stats">
+                                <span class="file-subtitle">Drag files to reorder them</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" id="clearFiles" class="clear-btn" title="Clear selection">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2"/>
+                            <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div id="fileListSection" class="file-list-section" style="display: none;">
+                <h3>Selected Images</h3>
+                <div id="fileList" class="file-list">
+                    <div id="filesContainer" class="files-container">
+                        <!-- File items will be rendered here -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="actionSection" class="action-section" style="display: none;">
+                <button id="convertBtn" class="convert-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="2"/>
+                        <polyline points="14,2 14,8 20,8" stroke="currentColor" stroke-width="2"/>
+                        <path d="M10 14l2 2 4-4" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span>Convert to PDF</span>
+                </button>
+            </div>
+
+            <div id="progressContainer" class="progress-container" style="display: none;">
+                <div class="progress-info">
+                    <span>Converting images to PDF...</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div id="progressBar" class="progress-bar"></div>
+                </div>
+            </div>
+
+            <div id="resultSection" class="result-section" style="display: none;">
+                <div class="success-message">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke="currentColor" stroke-width="2"/>
+                        <polyline points="22,4 12,14.01 9,11.01" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span>PDF created successfully!</span>
+                </div>
+                
+                <div class="download-section">
+                    <div class="download-actions">
+                        <a id="downloadLink" class="download-all-btn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"/>
+                                <polyline points="7,10 12,15 17,10" stroke="currentColor" stroke-width="2"/>
+                                <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Download PDF</span>
+                        </a>
+                        
+                        <button id="newConversionBtn" class="secondary-btn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <polyline points="1,4 1,10 7,10" stroke="currentColor" stroke-width="2"/>
+                                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Convert Another</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="image-to-pdf.js"></script>
+</body>
+</html>
