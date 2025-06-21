@@ -25,7 +25,7 @@ A professional web-based PDF toolkit for converting, merging, splitting, and com
 
 ## Installation
 
-Simply clone this repository and open `index.html` in your browser:
+Simply clone this repository and open `index.html` in your browser:-
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/pdf-tools-hub.git
